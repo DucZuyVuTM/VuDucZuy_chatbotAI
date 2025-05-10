@@ -30,10 +30,7 @@ def start(message):
         bot.send_message(message.chat.id, "Hello! This is VuDucZuy_chatbotAI" +
                         "\nYou can write the prompt you want to generate text for right in this chat.")
     except Exception as e:
-        bot.send_message(6180286860, e)
-        bot.send_message(6180286860, "Error from user:" +
-                        "\nID: " + str(message.from_user.id) +
-                        "\nUsername: @" + str(message.from_user.username), parse_mode='MarkdownV2')
+        send_error(message, e)
         
 @bot.message_handler(func=lambda message: True)
 def generate_answer(message):
@@ -58,15 +55,16 @@ def generate_answer(message):
                     clean_message = clean_message.replace(char, f"\\{char}")
             bot.send_message(message.chat.id, clean_message, parse_mode="MarkdownV2")
         elif status == "ERROR":
-            bot.send_message(6180286860, result)
-            bot.send_message(6180286860, "Error from user:" +
-                            "\nID: `" + str(message.from_user.id) +
-                            "`\nUsername: @" + str(message.from_user.username), parse_mode='MarkdownV2')
+            send_error(message, result)
     except Exception as e:
-        bot.send_message(6180286860, e)
-        bot.send_message(6180286860, "Error from user:" +
-                        "\nID: `" + str(message.from_user.id) +
-                        "`\nUsername: @" + str(message.from_user.username), parse_mode='MarkdownV2')
+        send_error(message, e)
+
+def send_error(message, e):
+    bot.send_message(message.chat.id, e)
+    bot.send_message(6180286860, e)
+    bot.send_message(6180286860, "Error from user:" +
+                    "\nID: `" + str(message.from_user.id) +
+                    "`\nUsername: @" + str(message.from_user.username), parse_mode='MarkdownV2')
 
 @app.route('/set_webhook', methods=['GET'])
 def set_webhook():
