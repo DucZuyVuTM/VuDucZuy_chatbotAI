@@ -69,4 +69,12 @@ def generate_answer(message):
                         "\nID: `" + str(message.from_user.id) +
                         "`\nUsername: @" + str(message.from_user.username), parse_mode='MarkdownV2')
 
-bot.polling()
+@app.route('/set_webhook', methods=['GET'])
+def set_webhook():
+    webhook_url = "https://vuduczuy-chatbotai.onrender.com/webhook"
+    bot.remove_webhook()
+    bot.set_webhook(url=webhook_url)
+    return "Webhook set", 200
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080)
