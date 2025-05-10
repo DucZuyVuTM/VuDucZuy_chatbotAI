@@ -1,7 +1,6 @@
 import os
 import time
 import telebot
-from telegram.helpers import escape_markdown
 from flask import Flask, request
 
 from chatbotAI import chatbotAI
